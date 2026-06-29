@@ -113,9 +113,10 @@ CRITICAL INSTRUCTION: You MUST output exactly ONE valid JSON block wrapped in ``
 Example of a valid tool call:
 ```json
 {
-  "tool": "run_command",
+  "tool": "write_file",
   "arguments": {
-    "command": "uname -a"
+    "filepath": "hello.py",
+    "content": "print('hello world')"
   }
 }
 ```
@@ -174,7 +175,9 @@ def run_agent(task: str):
                         elif tool_name == "read_file":
                             tool_result = TOOLS[tool_name](args.get("filepath"))
                         elif tool_name == "write_file":
-                            tool_result = TOOLS[tool_name](args.get("filepath"), args.get("content"))
+                            # Handle both "filepath" and "path" just in case the LLM makes a mistake
+                            filepath = args.get("filepath") or args.get("path")
+                            tool_result = TOOLS[tool_name](filepath, args.get("content"))
                         
                         console.print(f"[bold blue]Tool Output:[/bold blue]\n{tool_result}")
                         messages.append({"role": "user", "content": f"Tool Result:\n{tool_result}"})
