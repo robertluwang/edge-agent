@@ -1,1 +1,16 @@
-# Edge Agent\n\nAn autonomous AI edge worker running locally on a secure node.\n\n## Setup\n```bash\npip install -r requirements.txt\ncp .env.template .env\n# Edit .env with your variables\nsource .env\n```\n\n## Usage\n```bash\npython3 edge_agent.py "<task description>"\n```
+# Edge Agent
+
+An autonomous AI edge worker running locally on a secure node.
+
+## Setup
+```bash
+pip install -r requirements.txt
+cp .env.template .env
+# Edit .env with your variables
+source .env
+```
+
+## Usage
+```bash
+python3 edge_agent.py "<task description>"
+```
