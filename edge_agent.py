@@ -35,7 +35,10 @@ def do_chat(messages):
             resp_json = json.loads(response_body)
 
             if "choices" in resp_json and len(resp_json["choices"]) > 0:
-                return resp_json["choices"][0]["message"]["content"], None
+                content = resp_json["choices"][0]["message"].get("content")
+                if content is None:
+                    content = ""
+                return content, None
             else:
                 return None, Exception("No response from LLM.")
 
