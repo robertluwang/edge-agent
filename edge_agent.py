@@ -35,9 +35,12 @@ def do_chat(messages):
             resp_json = json.loads(response_body)
 
             if "choices" in resp_json and len(resp_json["choices"]) > 0:
-                content = resp_json["choices"][0]["message"].get("content")
-                if content is None:
+                choice = resp_json["choices"][0]
+                content = choice["message"].get("content")
+                if not content:
                     content = ""
+                    # For debugging: print the raw choice if content is unexpectedly empty
+                    console.print(f"[bold red]Warning: Empty content received. Raw choice data:[/bold red] {json.dumps(choice, indent=2)}")
                 return content, None
             else:
                 return None, Exception("No response from LLM.")
