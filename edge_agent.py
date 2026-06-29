@@ -20,7 +20,8 @@ def do_chat(messages):
     payload = {
         "model": LITELLM_MODEL,
         "messages": messages,
-        "temperature": 0.2
+        "temperature": 0.2,
+        "drop_params": True
     }
     json_data = json.dumps(payload).encode("utf-8")
 
@@ -99,7 +100,7 @@ TOOLS = {
     "write_file": write_file
 }
 
-SYSTEM_PROMPT = """You are an autonomous AI edge worker running locally on a secure iPhone 8 node.
+SYSTEM_PROMPT = """You are an autonomous AI edge worker running locally on a secure node.
 Your objective is to complete the user's task using the tools provided to inspect the system, manage files, and execute shell commands.
 
 You have access to the following tools:
@@ -107,7 +108,9 @@ You have access to the following tools:
 2. read_file: Read the content of a local file.
 3. write_file: Write or overwrite content to a local file.
 
-To call a tool, output a JSON block matching this structure:
+CRITICAL INSTRUCTION: You MUST output exactly ONE valid JSON block wrapped in ```json ... ``` for every single tool call. Do NOT use any native function calling API or tool calling API. You must literally type out the JSON text block in your markdown response.
+
+Example of a valid tool call:
 ```json
 {
   "tool": "run_command",
